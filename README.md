@@ -120,7 +120,7 @@ The following describes the properties of the `IWallet` interface:
 #### WalletToWalletInputDTO
 | Property       | Type      | Description                              |
 |----------------|-----------|------------------------------------------|
-| `email`       | [IUser](#IUser)| User's email                         |
+| `email`       | string     | User's email                             |
 | `amount`      | number    | Amount                                    |
 | `walletId`    | string    | User's wallet id                          |
 
