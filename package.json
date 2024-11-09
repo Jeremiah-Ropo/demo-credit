@@ -13,7 +13,8 @@
     "dev": "ts-node-dev --respawn --pretty ./src/index.ts",
     "test": "mocha --require ts-node/register ./test/**/index.ts --timeout 20000 --exit",
     "test:wallets": "mocha --require ts-node/register ./test/wallet*/index.ts --timeout 20000 --exit",
-    "test:users": "mocha --require ts-node/register ./test/user*/index.ts --timeout 20000 --exit"
+    "test:users": "mocha --require ts-node/register ./test/user*/index.ts --timeout 20000 --exit",
+    "migrate:latest": "yarn knex migrate:latest --knexfile knexfile.ts"
   },
   "engines": {
     "node": ">=14.x"

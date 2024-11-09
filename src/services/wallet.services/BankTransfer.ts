@@ -2,7 +2,7 @@ import { NextFunction } from 'express';
 import axios from 'axios';
 import { PAYSTACK_SECRET_KEY } from '../../config';
 
-import { ITransaction, IStatus } from "../../interfaces";
+import { ITransaction, EStatus } from "../../interfaces";
 import { WalletModel, TransactionModel } from '../../models';
 import { CustomError } from '../../utils/customError';
 import { referenceGenerator } from '../../utils/uniqueGenerator';
@@ -24,7 +24,7 @@ export const initializeTransfer = async (payload: any, next: NextFunction): Prom
     let transactionPayload: ITransaction = {
       walletId,
       transactionType: "withdrawal",
-      transactionStatus: IStatus.pending,
+      transactionStatus: EStatus.pending,
       reference,
       amount: amount,
       balanceBefore: wallet.walletBalance,

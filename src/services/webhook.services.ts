@@ -2,7 +2,7 @@ import { Request, NextFunction } from 'express';
 import crypto from 'crypto';
 
 import { PAYSTACK_SECRET_KEY } from '../config';
-import { IStatus, ITransaction } from '../interfaces';
+import { EStatus, ITransaction } from '../interfaces';
 import { UserModel, WalletModel, TransactionModel } from '../models';
 import { CustomError } from '../utils/customError';
 import { referenceGenerator } from '../utils/uniqueGenerator';
@@ -43,7 +43,7 @@ export const webhookPaystack = async (req: Request, next: NextFunction): Promise
         let transactionPayload: ITransaction = {
           walletId: data.metadata.wallet_id,
           transactionType: 'deposit',
-          transactionStatus: IStatus.success,
+          transactionStatus: EStatus.success,
           reference,
           amount: Number(data.amount / 100),
           balanceBefore: wallet.walletBalance,
@@ -64,7 +64,7 @@ export const webhookPaystack = async (req: Request, next: NextFunction): Promise
           console.error('ERROR: Reference not found');
           return;
         }
-        if (reference.transactionStatus === IStatus.success) {
+        if (reference.transactionStatus === EStatus.success) {
           console.error('ERROR: Transaction has already been processed');
           return;
         }
@@ -76,9 +76,8 @@ export const webhookPaystack = async (req: Request, next: NextFunction): Promise
 
         // update transaction
         const updatedTransaction = await Transaction.findByReferenceAndUpdate(data.reference, {
-          transactionStatus: IStatus.success,
+          transactionStatus: EStatus.success,
         });
-        console.log(updatedTransaction)
         await Wallet.updateWallet(data.metadata.wallet_id, {
           walletBalance: Number(wallet.walletBalance) - Number(data.amount / 100),
         });

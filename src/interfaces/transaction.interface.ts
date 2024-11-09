@@ -1,4 +1,4 @@
-export enum IStatus {
+export enum EStatus {
     success = "success",
     failed = "failed",
     pending = "pending",
@@ -7,7 +7,7 @@ export interface ITransaction {
     walletId: string;
     id?: number;
     transactionType: string;
-    transactionStatus: IStatus;
+    transactionStatus: EStatus;
     reference: string;
     balanceBefore: number;
     balanceAfter: number;
