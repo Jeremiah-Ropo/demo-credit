@@ -6,7 +6,7 @@
   "author": "Jeremiah <patrickjeremiah00@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "yarn && yarn tsc && node ./dist/index.js",
+    "start": "yarn && yarn tsc && node ./dist/src/index.js",
     "build": "rimraf ./dist && tsc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
