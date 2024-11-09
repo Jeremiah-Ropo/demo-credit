@@ -1,4 +1,4 @@
-# my starter - repo
+# DEMO CREDIT - repo
 
 - Description: DEMO-CREDIT is a mobile lending app that requires wallet functionality.
 
