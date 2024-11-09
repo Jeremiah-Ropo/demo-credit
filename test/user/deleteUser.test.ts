@@ -6,7 +6,7 @@ import { deleteUser } from "../../src/services/user.services";
 describe("Delete User Function", () => {
   describe("DELETE a User", () => {
     it("should DELETE a new user", async () => {
-      const user= 1;
+      const user= 3;
       const next = (error) => {
         console.error("Error in nextFunction:", {
           message: error.message

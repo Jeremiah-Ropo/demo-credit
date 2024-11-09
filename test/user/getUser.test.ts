@@ -6,7 +6,7 @@ import { getUserById } from "../../src/services/user.services";
 describe("GetUserById Function", () => {
   describe("GET a User", () => {
     it("should GET a new user", async () => {
-      const user = 1;
+      const user = 3;
       const next = (error) => {
         console.error("Error in nextFunction:", {
           message: error.message

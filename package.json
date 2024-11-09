@@ -11,7 +11,9 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "dev": "ts-node-dev --respawn --pretty ./src/index.ts",
-    "test": "mocha --require ts-node/register ./test/wallet*/index.ts --timeout 20000 --exit"
+    "test": "mocha --require ts-node/register ./test/**/index.ts --timeout 20000 --exit",
+    "test:wallets": "mocha --require ts-node/register ./test/wallet*/index.ts --timeout 20000 --exit",
+    "test:users": "mocha --require ts-node/register ./test/user*/index.ts --timeout 20000 --exit"
   },
   "engines": {
     "node": ">=14.x"

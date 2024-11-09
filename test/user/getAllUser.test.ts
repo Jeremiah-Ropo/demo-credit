@@ -7,7 +7,7 @@ describe("GetAllUsers Function", () => {
   describe("GET ALL Users", () => {
     it("should GET ALL users", async () => {
       const query = {
-        id: 1,
+        id: 3,
       };
       const next = (error) => {
         console.error("Error in nextFunction:", {
