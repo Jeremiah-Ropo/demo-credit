@@ -12,7 +12,7 @@ export const paymentCheckout = async (payload: any, next: NextFunction) => {
         const { amount, email, paymentMode, walletId } = payload;
         const wallet = await walletModel.findByWalletUserId(walletId);
         if (!wallet) {
-          next(new CustomError(404, "Wallet not found"));
+          return next(new CustomError(404, "Wallet not found"));
         }
     
         const reference = referenceGenerator();
@@ -41,7 +41,7 @@ export const paymentCheckout = async (payload: any, next: NextFunction) => {
         );
         return data?.data?.authorization_url; 
     } catch (error) {
-        next(new CustomError(500, error.message));
+      return next(new CustomError(500, error.message));
     }
 }
 

@@ -6,7 +6,7 @@ import { CustomError } from "../utils/customError";
 
 export const karmaBlackList = async (identity: string,next: NextFunction) => {
     try {
-        const data = await axios.get(`${KARMA_URL}/verification/karma/:${identity}`,
+        const data = await axios.get(`${KARMA_URL}/verification/karma/${identity}`,
             {
                 headers: {
                     Authorization: `Bearer ${KARMA_API_KEY}`
@@ -15,6 +15,6 @@ export const karmaBlackList = async (identity: string,next: NextFunction) => {
         )
         return data.data;
     } catch (error) {
-        next(new CustomError(500, error.message));
+        return next(new CustomError(500, error?.message || 'Internal Server Error'));
     }
 }

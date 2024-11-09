@@ -17,7 +17,7 @@ class UserModel {
     return await db(this.tableName).where({ email }).first();
   }
 
-  async findByIdAndUpdate(id: number, user: Partial<IUser>): Promise<void> {
+  async findByIdAndUpdate(id: number, user: Partial<IUser>): Promise<IUser | void> {
     return await db(this.tableName).where({ id }).update(user);
   }
 
@@ -25,8 +25,9 @@ class UserModel {
     await db(this.tableName).where({ id }).update({ last_login: new Date() });
   }
 
-  async updateUser(email: string, user: Partial<IUser>): Promise<void> {
-    await db(this.tableName).where({ email }).update({ user });
+  async updateUser(email: string, user: Partial<IUser>): Promise<IUser | void> {
+    await db(this.tableName).where({ email }).update(user);
+    return this.findByUserEmail(email);
   }
 
   async deleteUser(id: number): Promise<void> {

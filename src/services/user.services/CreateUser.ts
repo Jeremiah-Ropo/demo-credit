@@ -3,34 +3,34 @@ import { NextFunction } from 'express';
 import { UserModel } from '../../models';
 import { IUser, UserInputDTO } from '../../interfaces';
 import { karmaBlackList } from '../../services/karma.services';
+import { createWallet } from "../../services/wallet.services";
 import { CustomError } from '../../utils/customError';
 
 export const createUser = async (userInputDTO: UserInputDTO, next: NextFunction): Promise<IUser | void> => {
   const userModel = new UserModel();
   try {
-    const { email, karmaIdentity } = userInputDTO;
+    const { email, karmaIdentity, ...rest } = userInputDTO;
     const user = await userModel.findByUserEmail(email);
     if (user) {
-      next(new CustomError(409, 'User already exists'));
+      return next(new CustomError(409, 'User already exists'));
     }
-    if (user.blackListed) {
-      next(new CustomError(403, 'User is blacklisted'))
-    }
-    const { data } = await karmaBlackList(karmaIdentity, next);
-    console.log(data)
+    const {data} = await karmaBlackList(karmaIdentity, next);
     if (data.reporting_entity.email === email) {
-      await userModel.updateUser(email, { blackListed: true });
-      next(new CustomError(403, 'User is blacklisted'))
+      return next(new CustomError(403, 'User is blacklisted'))
     }
-    const newUserId = await userModel.createUser(userInputDTO);
+    const newUserPayload = {
+      ...rest,
+      email,
+    }
+    const newUserId = await userModel.createUser(newUserPayload);
     const newUser = await userModel.findUserById(newUserId);
-    
+    await createWallet(newUser.email, next)
     if (newUser) {
       delete newUser.password;
       return newUser;
     }
-    next(new CustomError(500, 'User creation failed'));
+    return next(new CustomError(500, 'User creation failed'));
   } catch (error: any) {
-    next(new CustomError(500, error.message || 'Internal Server Error'));
+    return next(new CustomError(500, error.message || 'Internal Server Error'));
   }
 };

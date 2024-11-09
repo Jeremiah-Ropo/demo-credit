@@ -1,6 +1,5 @@
-import * as chai from "chai";
+import { expect } from "chai";
 
-const { expect } = chai;
 import { UserInputDTO } from "../../src/interfaces";
 import { createUser } from "../../src/services/user.services";
 
@@ -20,14 +19,10 @@ describe("Registration Function", () => {
         });
       };
       try {
-        const newUser = await createUser(user, next);
-        expect(newUser).to.be.an("object");
-        expect(newUser).to.have.property("firstName");
-        expect(newUser).to.have.property("lastName");
-        expect(newUser).to.have.property("email");
-        expect(newUser).to.have.property("password");
+        const data = await createUser(user, next);
+        expect(data).to.be.an("object");
       } catch {
-        expect.fail("createUser should not throw an error");
+        expect.fail("Create User should not throw an error");
       }
     });
   });

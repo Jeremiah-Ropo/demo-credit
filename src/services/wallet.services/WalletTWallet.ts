@@ -10,15 +10,15 @@ export const walletToWallet = async (payload: WalletToWalletInputDTO, next: Next
   try {
     const user = await userModel.findByUserEmail(payload.email);
     if (payload.walletId === user.walletId) {
-      next(new CustomError(403, "You can't send money to yourself"));
+      return next(new CustomError(403, "You can't send money to yourself"));
     }
     const wallet = await walletModel.findByWalletUserId(user.walletId);
-      if (!wallet) next(new CustomError(404, 'User wallet does not exist'));
+      if (!wallet) return next(new CustomError(404, 'User wallet does not exist'));
       if (wallet.walletBalance <= payload.amount) {
-         next(new CustomError(400, "Insufficient balance"))
+        return next(new CustomError(400, "Insufficient balance"))
     }
     const beneficialWallet = await walletModel.findByWalletUserId(payload.walletId);
-    if (!beneficialWallet) next(new CustomError(404, 'User with this wallet ID does not exist'));
+    if (!beneficialWallet) return next(new CustomError(404, 'User with this wallet ID does not exist'));
     let beneficialWalletBalance: number = Number(beneficialWallet.walletBalance) + Number(payload.amount);
       let walletBalance: number = Number(wallet.walletBalance) - Number(payload.amount);
       await walletModel.updateWallet(payload.walletId, { walletBalance: beneficialWalletBalance });

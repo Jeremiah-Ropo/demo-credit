@@ -14,11 +14,11 @@ export const initializeTransfer = async (payload: any, next: NextFunction): Prom
     const { amount, paymentMode, email, walletId, reason } = payload;
     const wallet = await walletModel.findByWalletUserId(walletId);
     if (!wallet) {
-      next(new CustomError(404, 'Wallet not found'));
+      return next(new CustomError(404, 'Wallet not found'));
     }
 
-    if (wallet.walletBalance <= amount) {
-      next(new CustomError(400, 'Insufficient balance'));
+    if (Number(wallet.walletBalance) <= amount) {
+      return next(new CustomError(400, 'Insufficient balance'));
     }
     const reference = referenceGenerator();
     let transactionPayload: ITransaction = {
@@ -57,7 +57,6 @@ export const initializeTransfer = async (payload: any, next: NextFunction): Prom
     );
     return {data: data?.data?.authorization_url, transaction};
   } catch (error) {
-    console.log(error)
-    next(new CustomError(500, error.message));
+    return next(new CustomError(500, error.message));
   }
 };

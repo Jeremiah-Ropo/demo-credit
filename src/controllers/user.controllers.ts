@@ -59,7 +59,7 @@ class UserController {
 
   updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await updateUser(req.jwtPayload.user_id, req.body, next);
+      const data = await updateUser(req.jwtPayload.email, req.body, next);
       if (data) {
         res.status(200).send({ message: 'User updated successfully', data });
       }

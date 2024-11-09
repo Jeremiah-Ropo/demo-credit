@@ -4,12 +4,12 @@ import { UserModel } from "../../models";
 import { IUser } from "../../interfaces";
 import { CustomError } from "../../utils/customError";
 
-export const updateUser = async (userId: number, userInputDTO: Partial<IUser>, next: NextFunction): Promise<IUser | void> => {
+export const updateUser = async (email: string, userInputDTO: Partial<IUser>, next: NextFunction): Promise<IUser | void> => {
   const userModel = new UserModel();
   try {
-    const userUpdate = await userModel.findByIdAndUpdate(userId, userInputDTO);
+    const userUpdate = await userModel.updateUser(email, userInputDTO);
     return userUpdate;
   } catch (error) {
-    next(new CustomError(500, error.message));
+    return next(new CustomError(500, error.message));
   }
 };

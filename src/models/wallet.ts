@@ -22,8 +22,9 @@ class WalletModel {
     return await db(this.tableName).where({ walletId }).first();
   }
 
-  async updateWallet(walletId: string, wallet: Partial<IWallet>): Promise<void> {
+  async updateWallet(walletId: string, wallet: Partial<IWallet>): Promise<IWallet |undefined> {
     await db(this.tableName).where({ walletId }).update(wallet);
+    return this.findByWalletUserId(walletId)
   }
 
   async findByIdAndUpdate(id: number, wallet: WalletInputDTO): Promise<void> {

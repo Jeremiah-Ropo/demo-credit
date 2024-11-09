@@ -11,11 +11,11 @@ export const createWallet = async (email: string, next: NextFunction): Promise<I
   try {
     const user = await userModel.findByUserEmail(email);
     if (!user) {
-      next(new CustomError(404, 'User does not exists'));
+      return next(new CustomError(404, 'User does not exists'));
     }
     const walletExist = await walletModel.findByWalletUserId(user.walletId);
     if (walletExist) {
-      next(new CustomError(400, 'User already has a wallet'));
+      return next(new CustomError(400, 'User already has a wallet'));
     }
     const walletInput: WalletInputDTO = {
       userId: user.id,
@@ -28,8 +28,8 @@ export const createWallet = async (email: string, next: NextFunction): Promise<I
     if (newWallet) {
       return newWallet;
     }
-    next(new CustomError(500, 'User creation failed'));
+    return next(new CustomError(500, 'User creation failed'));
   } catch (error: any) {
-    next(new CustomError(500, error.message || 'Internal Server Error'));
+    return next(new CustomError(500, error.message || 'Internal Server Error'));
   }
 };

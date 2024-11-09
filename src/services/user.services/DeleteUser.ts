@@ -7,10 +7,10 @@ export const deleteUser = async (userId: number, next: NextFunction): Promise<st
   const userModel = new UserModel()
   try {
     const user = await userModel.findUserById(userId);
-    if (!user) next(new CustomError(404, 'User does not exist'));
+    if (!user) return next(new CustomError(404, 'User does not exist'));
     await userModel.deleteUser(userId);
     return "user deleted successfully";
   } catch (error) {
-    next(new CustomError(500, error.message));
+    return next(new CustomError(500, error.message));
   }
 };

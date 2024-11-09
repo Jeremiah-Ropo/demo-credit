@@ -10,7 +10,7 @@ export const getUserWallet = async (email: string, next: NextFunction): Promise<
   try {
     const user = await userModel.findByUserEmail(email);
     const wallet = await walletModel.findByWalletUserId(user.walletId);
-    if (!wallet) next(new CustomError(400, 'Not found'));
+    if (!wallet) return next(new CustomError(400, 'Not found'));
     return wallet;
   } catch (error) {
     return next(new CustomError(500, error.message));

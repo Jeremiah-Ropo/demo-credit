@@ -11,7 +11,7 @@ export const getAllUsers = async (
   const userModel = new UserModel()
   try {
     const data = await userModel.find(query);
-    if (data?.length === 0) next(new CustomError(404, "No User found"));
+    if (data?.length === 0) return next(new CustomError(404, "No User found"));
     const count = await userModel.countDocuments(query);
     const result = {
       data,
@@ -19,6 +19,6 @@ export const getAllUsers = async (
     };
     return result;
   } catch (error) {
-    next(new CustomError(500,  error.message));
+    return next(new CustomError(500,  error.message));
   }
 };

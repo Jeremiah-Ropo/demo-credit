@@ -10,9 +10,9 @@ export const loginUser = async (userLoginDTO: UserLoginDTO, next: NextFunction):
   try {
     const { email, password } = userLoginDTO;
     const user = await userModel.findByUserEmail(email);
-    if (!user) next(new CustomError(404, 'User does not exist'));
-    if (user.password !== password) next(new CustomError(400, 'Invalid email or password'));
-    console.log(user);
+    if (!user) return next(new CustomError(404, 'User does not exist'));
+    if (user.password !== password) return next(new CustomError(400, 'Invalid email or password'));
+    
     const token = createJwtToken({
       user_id: user.id,
       email: user.email,
@@ -20,6 +20,6 @@ export const loginUser = async (userLoginDTO: UserLoginDTO, next: NextFunction):
     await userModel.updateUserLastLogin(user.id);
     return token;
   } catch (error) {
-    next(new CustomError(500, error.message));
+    return next(new CustomError(500, error.message));
   }
 };
