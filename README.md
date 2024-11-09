@@ -62,7 +62,7 @@ git push origin login-with-email
 * [JwtPayload](#JwtPayload)
 
 ###### Base Url
-https://nidcc.herokuapp.com
+https://demo-credit-58d5d66ff6e5.herokuapp.com
 
 
 # Interfaces
