@@ -1,0 +1,13 @@
+.idea/
+.vscode/
+.DS_Store
+
+node_modules/
+build/
+
+.env
+
+dist
+
+models/knex/migrations/
+models/knex/*
