@@ -27,7 +27,7 @@ export const webhookPaystack = async (req: Request, next: NextFunction): Promise
     }
 
     if (body.event === 'charge.success') {
-      if (data.metadata.card_topup_wallet === 'true') {
+      if (data.metadata.topup_wallet === 'true') {
         const user = await User.findByUserEmail(data.customer.email);
         if (!user) {
           console.error(`ERROR: User not found`);

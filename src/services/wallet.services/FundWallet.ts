@@ -24,7 +24,7 @@ export const paymentCheckout = async (payload: any, next: NextFunction) => {
             email: email,
             reference,
             metadata: {
-              card_topup_wallet: true,
+              topup_wallet: true,
               payment_mode: paymentMode,
               transaction_category: "wallet-topup",
               wallet_balance_before: {
