@@ -15,7 +15,7 @@ export const createWallet = async (email: string, next: NextFunction): Promise<I
     }
     const walletExist = await walletModel.findByWalletUserId(user.walletId);
     if (walletExist || user.walletId) {
-      return next(new CustomError(400, 'User already has a wallet'));
+      return next(new CustomError(409, 'User already has a wallet'));
     }
     const walletInput: WalletInputDTO = {
       userId: user.id,

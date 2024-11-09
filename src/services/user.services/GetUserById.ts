@@ -8,7 +8,7 @@ export const getUserById = async (id: number, next: NextFunction): Promise<IUser
   const userModel = new UserModel();
   try {
     const user = await userModel.findUserById(id);
-    if (!user) return next(new CustomError(404, 'User does not exist'));
+    if (!user) return next(new CustomError(400, 'User does not exist'));
     delete user.password;
     return user;
   } catch (error) {
