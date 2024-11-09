@@ -20,7 +20,7 @@ router.post('/login', userController.loginUser);
 
 router.get('/:id', userController.getUserById);
 
-router.patch('/:id', checkUserJwt, userController.updateUser);
+router.patch('/', checkUserJwt, userController.updateUser);
 
 router.delete('/:id', checkUserJwt, userController.deleteUser);
 
