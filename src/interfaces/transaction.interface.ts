@@ -9,7 +9,17 @@ export interface ITransaction {
     transactionType: string;
     transactionStatus: EStatus;
     reference: string;
-    balanceBefore: number;
-    balanceAfter: number;
+    balanceBefore?: number;
+    balanceAfter?: number;
     amount: number;
+}
+
+export interface ITransfer {
+    email: string;
+    amount: number;
+    reference: string;
+    reason?: string;
+    paymentMode: string;
+    walletId: string;
+    topUp: boolean;
 }

@@ -1,10 +1,10 @@
 import { NextFunction } from "express";
-import axios from "axios";
-import { PAYSTACK_SECRET_KEY } from '../../config';
 
+import { ITransfer } from "../../interfaces";
 import { WalletModel } from "../../models";
 import { CustomError } from "../../utils/customError";
 import { referenceGenerator } from "../../utils/uniqueGenerator";
+import { paystackPaymentCheckout } from "../paystack.services";
 
 export const paymentCheckout = async (payload: any, next: NextFunction) => {
     const walletModel = new WalletModel()
@@ -16,30 +16,17 @@ export const paymentCheckout = async (payload: any, next: NextFunction) => {
         }
     
         const reference = referenceGenerator();
-    
-        const { data } = await axios.post(
-          "https://api.paystack.co/transaction/initialize",
-          {
-            amount: Number(amount * 100),
-            email: email,
-            reference,
-            metadata: {
-              topup_wallet: true,
-              payment_mode: paymentMode,
-              transaction_category: "wallet-topup",
-              wallet_balance_before: {
-                wallet_balance: wallet.walletBalance,
-              },
-              wallet_id: walletId,
-            },
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
-            },
-          }
-        );
-        return data?.data?.authorization_url; 
+        let payloadInitializeTransfer: ITransfer = {
+          amount,
+          paymentMode,
+          email,
+          walletId,
+          reason: null,
+          reference,
+          topUp: true
+        }
+        const { data } = await paystackPaymentCheckout(payloadInitializeTransfer, next)
+        return data?.authorization_url; 
     } catch (error) {
       return next(new CustomError(500, error.message));
     }

@@ -58,7 +58,7 @@ export const webhookPaystack = async (req: Request, next: NextFunction): Promise
 
         return { transaction, message: 'Webhook executed succesfully' };
       }
-      if (data.metadata.deduct_wallet === 'true') {
+      if (data.metadata.topup_wallet === 'false') {
         const reference = await Transaction.findByReference(data.reference);
         if (!reference) {
           console.error('ERROR: Reference not found');
@@ -77,6 +77,8 @@ export const webhookPaystack = async (req: Request, next: NextFunction): Promise
         // update transaction
         const updatedTransaction = await Transaction.findByReferenceAndUpdate(data.reference, {
           transactionStatus: EStatus.success,
+          balanceBefore: wallet.walletBalance,
+          balanceAfter: wallet.walletBalance - Number(data.amount),
         });
         await Wallet.updateWallet(data.metadata.wallet_id, {
           walletBalance: Number(wallet.walletBalance) - Number(data.amount / 100),
