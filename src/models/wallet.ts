@@ -4,14 +4,14 @@ import {db} from '../utils/connection';
 class WalletModel {
   private tableName = 'Wallets';
 
-  async createWallet(wallet: WalletInputDTO): Promise<number> {
+  async createWallet(wallet: WalletInputDTO): Promise<IWallet | undefined> {
     const walletPayload: IWallet = {
       ...wallet,
       walletBalance: 0,
       freezed: false,
     };
     const [id] = await db(this.tableName).insert(walletPayload);
-    return id;
+    return this.findWalletById(id);
   }
 
   async findWalletById(id: number): Promise<IWallet | undefined> {

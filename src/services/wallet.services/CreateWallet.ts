@@ -23,10 +23,9 @@ export const createWallet = async (email: string, next: NextFunction): Promise<I
       walletId: uniqueGeneratorWalletId(),
     };
     const newWalletId = await walletModel.createWallet(walletInput);
-    const newWallet = await walletModel.findWalletById(newWalletId);
-    await userModel.findByIdAndUpdate(user.id, { walletId: newWallet?.walletId });
-    if (newWallet) {
-      return newWallet;
+    await userModel.findByIdAndUpdate(user.id, { walletId: newWalletId?.walletId });
+    if (newWalletId) {
+      return newWalletId;
     }
     return next(new CustomError(500, 'User creation failed'));
   } catch (error: any) {

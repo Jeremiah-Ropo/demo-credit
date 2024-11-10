@@ -4,9 +4,9 @@ import { db } from '../utils/connection';
 class TransactionModel {
   private tableName = 'Transactions';
 
-  async createTransaction(transaction: ITransaction): Promise<number> {
+  async createTransaction(transaction: ITransaction): Promise<ITransaction | undefined> {
     const [id] = await db(this.tableName).insert(transaction);
-    return id;
+    return this.findTransactionById(id);
   }
 
   async findTransactionById(id: number): Promise<ITransaction | undefined> {

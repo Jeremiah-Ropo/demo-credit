@@ -30,15 +30,14 @@ export const initializeTransfer = async (payload: any, next: NextFunction): Prom
       balanceBefore: wallet.walletBalance,
     };
     const createTransaction = await transactionModel.createTransaction(transactionPayload);
-    const transaction = await transactionModel.findTransactionById(createTransaction);
 
     const { data } = await createTransferRecipient(name, bankCode, accountNumber, next);
     const init = await initiateTransfer(amount, data.recipient_code, reason, next);
 
     await walletModel.updateWallet(walletId, {
-      walletBalance: Number(wallet.walletBalance) - Number(data.amount / 100),
+      walletBalance: Number(wallet.walletBalance) - Number(amount / 100),
     });
-    return { data: init, transaction };
+    return { data: init, createTransaction };
   } catch (error) {
     return next(new CustomError(500, error.message));
   }
