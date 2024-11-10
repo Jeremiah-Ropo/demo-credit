@@ -302,9 +302,11 @@ Parameters:
 ###### initializeTransferPayload
 | Property           | Type      | Description                              |
 |--------------------|-----------|------------------------------------------|
-| `paymentMode`      | string    | Transaction type(fund/bank transfer)     |
+| `name`             | string    | beneficial account name                  |
 | `email`            | string    | User's email                             |
 | `walletId`         | string    | User's wallet id                         |
+| `accountNumber`    | string    | beneficial account number                |
+| `bankCode`         | string    | bank account number code                 |
 | `reason`           | string    | Transaction's reason                     |
 | `amount`           | number    | Amount of Transaction                    |
 
