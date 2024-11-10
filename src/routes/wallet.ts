@@ -20,4 +20,8 @@ router.post('/fund-wallet', [checkUserJwt, checkUser], walletController.fundWall
 
 router.post('/bank-transfer', [checkUserJwt, checkUser], walletController.bankTransfer);
 
+router.post('/validate-account-number', [checkUserJwt, checkUser], walletController.validateAccNum);
+
+router.get('/bank/list', [checkUserJwt, checkUser], walletController.getAllBankList);
+
 export default router;

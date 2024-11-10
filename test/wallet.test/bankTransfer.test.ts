@@ -6,12 +6,13 @@ describe("initializeTransfer Function", () => {
   describe("initialize a Transfer", () => {
     it("should initialize a transfer", async () => {
         const payload: any = {
-            amount: 100,
-            email: "support@blinkcash.ng",
-            walletId: "1551914-wallet_id",
-            reason: "Test",
-            paymentMode: "bank_transfer",
-        }
+          "amount": 20,
+          "walletId": "1551914-wallet_id",
+          "reason": "bank transfer",
+          "name": "PATRICK JEREMIAH OLUWAFIROPO",
+          "bankCode": "011",
+          "accountNumber": "3107783513"
+      }
   
       const next = (error) => {
         console.error("Error in nextFunction:", {

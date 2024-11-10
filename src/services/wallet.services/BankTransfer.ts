@@ -3,14 +3,14 @@ import { NextFunction } from 'express';
 import { ITransaction, EStatus, ITransfer } from '../../interfaces';
 import { WalletModel, TransactionModel } from '../../models';
 import { CustomError } from '../../utils/customError';
-import { paystackPaymentCheckout } from '../paystack.services';
+import { createTransferRecipient, initiateTransfer } from '../paystack.services';
 import { referenceGenerator } from '../../utils/uniqueGenerator';
 
 export const initializeTransfer = async (payload: any, next: NextFunction): Promise<object | void> => {
   const walletModel = new WalletModel();
   const transactionModel = new TransactionModel();
   try {
-    const { amount, paymentMode, email, walletId, reason } = payload;
+    const { amount, name, bankCode, accountNumber, walletId, reason } = payload;
     const wallet = await walletModel.findByWalletUserId(walletId);
     if (!wallet) {
       return next(new CustomError(404, 'Wallet not found'));
@@ -26,20 +26,19 @@ export const initializeTransfer = async (payload: any, next: NextFunction): Prom
       transactionStatus: EStatus.pending,
       reference,
       amount,
+      balanceAfter: Number(wallet.walletBalance) - Number(amount),
+      balanceBefore: wallet.walletBalance,
     };
     const createTransaction = await transactionModel.createTransaction(transactionPayload);
     const transaction = await transactionModel.findTransactionById(createTransaction);
-    let payloadInitializeTransfer: ITransfer = {
-      amount,
-      paymentMode,
-      email,
-      walletId,
-      reason,
-      reference,
-      topUp: false,
-    };
-    const { data } = await paystackPaymentCheckout(payloadInitializeTransfer, next);
-    return { data: data?.authorization_url, transaction };
+
+    const { data } = await createTransferRecipient(name, bankCode, accountNumber, next);
+    const init = await initiateTransfer(amount, data.recipient_code, reason, next);
+
+    await walletModel.updateWallet(walletId, {
+      walletBalance: Number(wallet.walletBalance) - Number(data.amount / 100),
+    });
+    return { data: init, transaction };
   } catch (error) {
     return next(new CustomError(500, error.message));
   }
