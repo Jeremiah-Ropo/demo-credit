@@ -1,4 +1,5 @@
 import { Knex } from 'knex';
+import 'dotenv/config';
 import { DATABASE_URL } from './src/config';
 
 const config: { [key: string]: Knex.Config } = {
