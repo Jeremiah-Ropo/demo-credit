@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 const config: { [key: string]: Knex.Config } = {
     development: {
-        client: 'mysql2',
+        client: 'mysql',
         connection: {
             host: '127.0.0.1',
             user: 'root',
