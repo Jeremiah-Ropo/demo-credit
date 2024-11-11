@@ -4,5 +4,5 @@
         "target": "es6",
         "outDir": "./dist/src/models/knex/migrations"
     },
-    "include": ["./src/models/knex/migrations/**/*.ts"]
+    "include": ["knexfile.ts", "./src/models/knex/migrations/**/*.ts"]
 }
