@@ -6,6 +6,7 @@
   "author": "Jeremiah <patrickjeremiah00@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
+    "postbuild": "tsc -p tsconfig.knex.json",
     "start": "NODE_ENV=production yarn install --production=false && yarn build && node ./dist/src/index.js",
     "build": "rimraf ./dist && tsc",
     "lint": "eslint . --ext .ts",
