@@ -8,3 +8,4 @@ export const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 export const KARMA_API_KEY = process.env.KARMA_API_KEY;
 export const KARMA_APP_ID = process.env.KARMA_APP_ID;
 export const KARMA_URL = process.env.KARMA_URL;
+export const DATABASE_URL = process.env.DATABASE_URL;

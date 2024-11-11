@@ -8,5 +8,7 @@ declare namespace NodeJS {
         KARMA_APP_ID: string;
         KARMA_API_KEY: string;
         KARMA_URL: string;
+        DATABASE_URL: string;
+
     }
 }
