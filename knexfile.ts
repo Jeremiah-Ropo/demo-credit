@@ -24,7 +24,7 @@ const config: { [key: string]: Knex.Config } = {
     },
     production: {
         client: 'mysql2',
-        connection: `${process.env.DATABASE_URL}`,
+        connection: `mysql2://root:jeremiah@127.0.0.1:3306/demo_credit`,
         pool: {
             min: 2,
             max: 10
