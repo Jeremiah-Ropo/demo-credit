@@ -8,7 +8,7 @@ export const checkUser = async (req: Request, res: Response, next: NextFunction)
     const { email } = req.jwtPayload;
 
     const user = await userModel.findByUserEmail(email);
-    if (!user) next(new CustomError(404, 'User does not exist'));
+    if (!user) return next(new CustomError(404, 'User does not exist'));
       req.body.email = user.email;
       req.body.walletId = user.walletId;
     next();
